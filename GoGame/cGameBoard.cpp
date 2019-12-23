@@ -8,7 +8,7 @@ cGameBoard::cGameBoard()
 	//set all positions blank
 	for (int i = 0; i < 19; i++) {
 		for (int c = 0; c < 19; c++) {
-			Playfield[i].insert(std::pair<int, PositionStatus>(c, Blank));
+			Playfield[i].insert(std::pair<int, ColourStatus>(c, Blank));
 		}
 	}
 }
@@ -18,12 +18,12 @@ cGameBoard::~cGameBoard()
 {
 }
 
-PositionStatus cGameBoard::GetPositionStatus(int x, int y)
+ColourStatus cGameBoard::GetPositionStatus(cCoordinates Coordinates)
 {
-	return (Playfield[y]).at(x);
+	return (Playfield[Coordinates.y]).at(Coordinates.x);
 }
 
-void cGameBoard::PlacePiece(PositionStatus PlayerColour, int x, int y)
+void cGameBoard::PlacePiece(ColourStatus PlayerColour, cCoordinates Coordinates)
 {
-	(Playfield[y]).at(x) = PlayerColour;
+	(Playfield[Coordinates.y]).at(Coordinates.x) = PlayerColour;
 }

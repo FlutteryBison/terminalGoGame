@@ -4,20 +4,34 @@
 #include "pch.h"
 #include <iostream>
 #include "cGameBoard.h"
+#include "cPlayer.h"
+
 
 using namespace std;
 
 
 void PrintGame(cGameBoard);
-char ConvertPostitionStatusToChar(PositionStatus);
+char ConvertPostitionStatusToChar(ColourStatus);
+void TakeTurn(cPlayer);
+cCoordinates AskTurnPosition();
+
+
 
 int main()
 {
 	cGameBoard game;
 	PrintGame(game);
-	cout << endl;
-	game.PlacePiece(Black, 0, 2);
-	PrintGame(game);
+	cPlayer Player1 = { White,0 };
+	cPlayer Player2 = { Black,0 };
+
+
+	while (1) {
+		game.PlacePiece(Player1.PlayerColour, AskTurnPosition());
+		PrintGame(game);
+		game.PlacePiece(Player2.PlayerColour, AskTurnPosition());
+		PrintGame(game);
+	}
+	
 
 }
 
@@ -48,14 +62,17 @@ void PrintGame(cGameBoard game) {
 
 		//print game board line
 		for (int x = 0; x < 19; x++) {
-			cout << ConvertPostitionStatusToChar(game.GetPositionStatus(x, y))<<" ";
+
+			cCoordinates* Coordinates = new cCoordinates{ x,y };
+			cout << ConvertPostitionStatusToChar(game.GetPositionStatus(*Coordinates))<<" ";
+			delete Coordinates;
 		}
 		cout << endl;
 	}
 	
 }
 
-char ConvertPostitionStatusToChar(PositionStatus ps) {
+char ConvertPostitionStatusToChar(ColourStatus ps) {
 	switch (ps) {
 	case Blank: 
 	{
@@ -75,6 +92,24 @@ char ConvertPostitionStatusToChar(PositionStatus ps) {
 		return NULL;
 	}
 	}
+}
+
+void TakeTurn(cPlayer) 
+{
+	
+}
+
+cCoordinates AskTurnPosition()
+{
+	cCoordinates Coordinates;
+	cout << "Enter x coordinate\n";
+	cin >> Coordinates.x;
+	(Coordinates.x) -= 1;
+
+	cout << "Enter y coordinate\n";
+	cin >> Coordinates.y;
+	(Coordinates.y) -= 1;
+	return Coordinates;
 }
 
 

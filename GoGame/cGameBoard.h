@@ -1,7 +1,9 @@
 #pragma once
 #include <map>
+#include "enumPositionStatus.h"
+#include "cCoordinates.h"
 
-enum PositionStatus : char { Black = 'b', White = 'w', Blank = '#' };
+
 
 class cGameBoard
 {
@@ -9,13 +11,13 @@ public:
 	cGameBoard();
 	~cGameBoard();
 
-	PositionStatus GetPositionStatus(int x, int y);
+	ColourStatus GetPositionStatus(cCoordinates);
 
-	void PlacePiece(PositionStatus, int x, int y);
+	void PlacePiece(ColourStatus, cCoordinates);
 
 private:
 	//map for each row. each row contains 19 places
-	std::map <int, PositionStatus> Playfield[19];
+	std::map <int, ColourStatus> Playfield[19];
 
 };
 

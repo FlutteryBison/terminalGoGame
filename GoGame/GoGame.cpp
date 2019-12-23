@@ -3,19 +3,78 @@
 
 #include "pch.h"
 #include <iostream>
+#include "cGameBoard.h"
+
+using namespace std;
+
+
+void PrintGame(cGameBoard);
+char ConvertPostitionStatusToChar(PositionStatus);
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	cGameBoard game;
+	PrintGame(game);
+	cout << endl;
+	game.PlacePiece(Black, 0, 2);
+	PrintGame(game);
+
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void PrintGame(cGameBoard game) {
+	//x axis numbering
+	cout << "    ";
+	for (int i = 0; i < 19; i++) {
+
+		if (i + 1 < 10) {
+			cout << i + 1 << " ";
+		}
+		else {
+			cout << i - 9 << " ";
+		}
+	}
+	cout << endl;
+
+	for (int y = 0; y < 19; y++) {
+		
+		//y axis numbering
+		if (y + 1 < 10) {
+			cout << "  " << y + 1 << " ";
+		}
+		else {
+			cout << " " << y + 1 << " ";
+		}
+
+		//print game board line
+		for (int x = 0; x < 19; x++) {
+			cout << ConvertPostitionStatusToChar(game.GetPositionStatus(x, y))<<" ";
+		}
+		cout << endl;
+	}
+	
+}
+
+char ConvertPostitionStatusToChar(PositionStatus ps) {
+	switch (ps) {
+	case Blank: 
+	{
+		return'#';
+	}
+	case White:
+	{
+		return 'w';
+	}
+	case Black:
+	{
+		return 'b';
+	}
+	default:
+	{
+		cout << "Error in ConvertPositionToChar";
+		return NULL;
+	}
+	}
+}
+
+

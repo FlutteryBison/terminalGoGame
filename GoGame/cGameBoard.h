@@ -4,9 +4,11 @@
 #include "cCoordinates.h"
 #include <vector>
 
+
+//TODO initialise status to blank. change cGameBoard consturctor
 struct cPoint{
 	ColourStatus Status;
-	int Group;
+	int Group = -1;
 };
 
 
@@ -17,8 +19,8 @@ public:
 	cGameBoard();
 	~cGameBoard();
 
-	ColourStatus GetPositionStatus(cCoordinates);
-	std::vector<std::vector<cPoint>> GetPlayfield();
+	ColourStatus GetPositionStatus(cCoordinates) const;
+	std::vector<std::vector<cPoint>> GetPlayfield() const;
 
 	void PlacePiece(ColourStatus, cCoordinates);
 	int AddToNewGroup(cCoordinates);//returns group number
@@ -30,6 +32,10 @@ private:
 	std::vector<std::vector<cPoint>> Playfield;
 	std::vector<cCoordinates> Group;
 	std::vector<std::vector<cCoordinates>> Groups;
+
+
+	//private functions
+	void UpdatePlayFieldPointsGroups(std::vector<cCoordinates>, int);
 
 };
 

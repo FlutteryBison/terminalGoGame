@@ -41,3 +41,12 @@ void cGameBoard::PlacePiece(ColourStatus PlayerColour, cCoordinates Coordinates)
 {
 	Playfield[Coordinates.x][Coordinates.y].Status = PlayerColour;
 }
+
+int cGameBoard::AddToNewGroup(cCoordinates PlayedPoint)
+{
+	Groups.resize(Groups.size() + 1);
+	(Groups.back()).push_back(PlayedPoint);
+	Groups.back().back().x;
+
+	return Groups.size()-1;
+}

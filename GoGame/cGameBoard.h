@@ -21,6 +21,8 @@ public:
 	std::vector<std::vector<cPoint>> GetPlayfield();
 
 	void PlacePiece(ColourStatus, cCoordinates);
+	int AddToNewGroup(cCoordinates);//returns group number
+	void AddToExistingGroup(cCoordinates, int GroupNumber);
 
 private:
 	//map for each row. each row contains 19 places

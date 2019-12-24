@@ -5,6 +5,7 @@
 #include <iostream>
 #include "cGameBoard.h"
 #include "cPlayer.h"
+#include "cGameplay.h"
 
 
 using namespace std;
@@ -12,24 +13,25 @@ using namespace std;
 
 void PrintGame(cGameBoard);
 char ConvertPostitionStatusToChar(ColourStatus);
-void TakeTurn(cPlayer);
+void TakeTurn(cPlayer); //not currently used
 cCoordinates AskTurnPosition();
 
 
 
 int main()
 {
-	cGameBoard game;
-	PrintGame(game);
+	cGameBoard* game = new cGameBoard;
+	cGameplay Gameplay;
+	PrintGame(*game);
 	cPlayer Player1 = { White,0 };
 	cPlayer Player2 = { Black,0 };
 
 
 	while (1) {
-		game.PlacePiece(Player1.PlayerColour, AskTurnPosition());
-		PrintGame(game);
-		game.PlacePiece(Player2.PlayerColour, AskTurnPosition());
-		PrintGame(game);
+		Gameplay.MakeMove(Player1,AskTurnPosition(),game);
+		PrintGame(*game);
+		Gameplay.MakeMove(Player2, AskTurnPosition(), game);
+		PrintGame(*game);
 	}
 	
 

@@ -154,13 +154,13 @@
     <ClInclude Include="cGameBoard.h" />
     <ClInclude Include="cCoordinates.h" />
     <ClInclude Include="enumPositionStatus.h" />
-    <ClInclude Include="Gameplay.h" />
+    <ClInclude Include="cGameplay.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="cPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cGameBoard.cpp" />
-    <ClCompile Include="Gameplay.cpp" />
+    <ClCompile Include="cGameplay.cpp" />
     <ClCompile Include="GoGame.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -49,12 +49,30 @@ int cGameBoard::AddToNewGroup(cCoordinates PlayedPoint)
 
 	UpdatePlayFieldPointsGroups(Groups.back(), Groups.size() - 1);
 
+	PrintGroup(Groups.size() - 1);
 	return Groups.size()-1;
 }
+
+void cGameBoard::AddToExistingGroup(cCoordinates PlayedPoint, int GroupNumber)
+{
+	Groups.at(GroupNumber).push_back(PlayedPoint);
+}
+
+
 
 void cGameBoard::UpdatePlayFieldPointsGroups(std::vector<cCoordinates> group, int GroupNumber)
 {
 	for (int i = 0; i < group.size(); i++) {
 		(Playfield.at(group.at(i).y)).at(group.at(i).x).Group = GroupNumber;
 	}
+}
+
+
+void cGameBoard::PrintGroup(int GroupNumber)
+{
+	std::cout << "points in group " << GroupNumber << ":\n";
+	for (int i = 0; i < Groups.at(GroupNumber).size(); i++) {
+		std::cout << "(" << Groups.at(GroupNumber).at(i).x << "," << Groups.at(GroupNumber).at(i).y << ")\n";
+	}
+	std::cout << std::endl;
 }

@@ -14,7 +14,7 @@ using namespace std;
 void PrintGame(cGameBoard);
 char ConvertPostitionStatusToChar(ColourStatus);
 void TakeTurn(cPlayer); //not currently used
-cCoordinates AskTurnPosition();
+cCoordinates AskTurnPosition(cPlayer);
 
 
 
@@ -28,9 +28,9 @@ int main()
 
 
 	while (1) {
-		Gameplay.MakeMove(Player1,AskTurnPosition(),game);
+		Gameplay.MakeMove(Player1,AskTurnPosition(Player1),game);
 		PrintGame(*game);
-		Gameplay.MakeMove(Player2, AskTurnPosition(), game);
+		Gameplay.MakeMove(Player2, AskTurnPosition(Player2), game);
 		PrintGame(*game);
 	}
 	
@@ -101,8 +101,18 @@ void TakeTurn(cPlayer)
 	
 }
 
-cCoordinates AskTurnPosition()
+cCoordinates AskTurnPosition(cPlayer Player)
 {
+	if (Player.PlayerColour == Black) {
+		cout << "Black";
+	} 
+	
+	if (Player.PlayerColour == White) {
+		cout << "White";
+	}
+
+	cout << "s turn\n";
+
 	cCoordinates Coordinates;
 	cout << "Enter x coordinate\n";
 	cin >> Coordinates.x;

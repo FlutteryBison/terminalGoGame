@@ -33,7 +33,6 @@ void cGameplay::MakeMove(cPlayer Player, cCoordinates MoveCoordinates, cGameBoar
 	bool bIsInGroup = false;
 	if (GameBoard->GetPlayfield().at(MoveCoordinates.x + 1).at(MoveCoordinates.y).Status == Player.PlayerColour) {
 		std::cout << "Friendly piece at (" << MoveCoordinates.x + 1 << "," << MoveCoordinates.y << ")\n";
-		GameBoard->GetPlayfield().at(MoveCoordinates.x).at(MoveCoordinates.y).Group = GameBoard->GetPlayfield().at(MoveCoordinates.x + 1).at(MoveCoordinates.y).Group;
 		bIsInGroup = true;
 	}
 	if (GameBoard->GetPlayfield().at(MoveCoordinates.x).at(MoveCoordinates.y + 1).Status == Player.PlayerColour) {

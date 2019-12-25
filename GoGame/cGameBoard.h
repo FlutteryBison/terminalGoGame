@@ -12,6 +12,13 @@ struct cPoint{
 	int Group = -1;
 };
 
+///roup number used to be group.size. if errors check this has been changed everywhere
+struct cGroup {
+	int GroupNumber;
+	std::vector<cCoordinates> PointsInGroup;
+	int Liberties;
+};
+
 
 
 class cGameBoard
@@ -24,22 +31,22 @@ public:
 	std::vector<std::vector<cPoint>> GetPlayfield() const;
 
 	void PlacePiece(ColourStatus, cCoordinates);
-	int AddToNewGroup(cCoordinates);//returns group number
-	void AddToExistingGroup(cCoordinates, int GroupNumber);
+	void AddToNewGroup(cCoordinates);
+	void AddToExistingGroup(cCoordinates, cGroup &GroupToAddTo);
 
 
 	//DEBUG FUNCTIONS
-	void PrintGroup(int);
+	void PrintGroup(cGroup);
 
 private:
 	//map for each row. each row contains 19 places
 	//std::map <int, ColourStatus> Playfield[19];
 	std::vector<std::vector<cPoint>> Playfield; //TODO Change from vector of vectors to vector of class group.group contains coordinates vector and group number
-	std::vector<std::vector<cCoordinates>> Groups;
+	std::vector<cGroup> Groups;
 
 
 	//private functions
-	void UpdatePlayFieldPointsGroups(std::vector<cCoordinates>, int);
+	void UpdatePlayFieldPointsGroups(cGroup);
 
 };
 

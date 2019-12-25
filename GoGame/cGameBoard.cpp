@@ -42,37 +42,46 @@ void cGameBoard::PlacePiece(ColourStatus PlayerColour, cCoordinates Coordinates)
 	Playfield[Coordinates.x][Coordinates.y].Status = PlayerColour;
 }
 
-int cGameBoard::AddToNewGroup(cCoordinates PlayedPoint)
+void cGameBoard::AddToNewGroup(cCoordinates PlayedPoint)
 {
-	Groups.resize(Groups.size() + 1);
-	(Groups.back()).push_back(PlayedPoint);
+	
+	Groups.resize(Groups.size() + 1); //create new group
 
-	UpdatePlayFieldPointsGroups(Groups.back(), Groups.size() - 1);
+	if (Groups.size() > 1) {
+		Groups.back().GroupNumber = Groups.at(Groups.size() - 2).GroupNumber + 1;//group number is 1 bigger than the last groups number
+	}
+	else {
+		Groups.back().GroupNumber = 0; // if no other groups (first piece) group number = 0
+	}
 
-	PrintGroup(Groups.size() - 1);
-	return Groups.size()-1;
+
+	(Groups.back()).PointsInGroup.push_back(PlayedPoint); //add point to new group
+
+	UpdatePlayFieldPointsGroups(Groups.back()); 
+
+	PrintGroup(Groups.back()); //FOR DEBUG ONLY
 }
 
-void cGameBoard::AddToExistingGroup(cCoordinates PlayedPoint, int GroupNumber)
+void cGameBoard::AddToExistingGroup(cCoordinates PlayedPoint, cGroup &GroupToAddTo)
 {
-	Groups.at(GroupNumber).push_back(PlayedPoint);
+	GroupToAddTo.PointsInGroup.push_back(PlayedPoint);
 }
 
 
 
-void cGameBoard::UpdatePlayFieldPointsGroups(std::vector<cCoordinates> group, int GroupNumber)
+void cGameBoard::UpdatePlayFieldPointsGroups(cGroup Group)
 {
-	for (int i = 0; i < group.size(); i++) {
-		(Playfield.at(group.at(i).y)).at(group.at(i).x).Group = GroupNumber;
+	for (int i = 0; i < Group.PointsInGroup.size(); i++) {
+		(Playfield.at(Group.PointsInGroup.at(i).y)).at(Group.PointsInGroup.at(i).x).Group = Group.GroupNumber;
 	}
 }
 
 
-void cGameBoard::PrintGroup(int GroupNumber)
+void cGameBoard::PrintGroup(cGroup Group)
 {
-	std::cout << "points in group " << GroupNumber << ":\n";
-	for (int i = 0; i < Groups.at(GroupNumber).size(); i++) {
-		std::cout << "(" << Groups.at(GroupNumber).at(i).x << "," << Groups.at(GroupNumber).at(i).y << ")\n";
+	std::cout << "points in group " << Group.GroupNumber << ":\n";
+	for (int i = 0; i < Group.PointsInGroup.size(); i++) {
+		std::cout << "(" << Group.PointsInGroup.at(i).x << "," << Group.PointsInGroup.at(i).y << ")\n";
 	}
 	std::cout << std::endl;
 }

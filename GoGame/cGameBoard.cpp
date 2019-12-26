@@ -81,20 +81,36 @@ void cGameBoard::AddToExistingGroup(cCoordinates PlayedPoint, cCoordinates Adjac
 	PrintGroup(Groups.at(SearchGroupIndexInGroups(AdjecentPieceGroupNumber)));
 }
 
+//needs fixing Currently will try to connect a group to itself if points in the same group are supplied
 void cGameBoard::ConnectGroups(cCoordinates Coordinates1, cCoordinates Coordinates2)
 {
+	
 	int GroupNumber1 = GetPoint(Coordinates1).Group;
 	int GroupNumber2 = GetPoint(Coordinates2).Group;
-	int GroupIndex1 = SearchGroupIndexInGroups(GroupNumber1);
-	int GroupIndex2 = SearchGroupIndexInGroups(GroupNumber2);
-	
-	Groups.at(GroupIndex1).PointsInGroup.insert(
-		Groups.at(GroupIndex1).PointsInGroup.end(), ///where to start inserting
-		Groups.at(GroupIndex2).PointsInGroup.begin(), ///where to start inserting from
-		Groups.at(GroupIndex2).PointsInGroup.end()); ///where to finish inserting from
 
-	Groups.erase(Groups.begin() + GroupIndex2);
-	PrintGroup(Groups.at(GroupIndex1));
+	if (GroupNumber1 != GroupNumber2) {
+
+		///if ensures the group with a larger index is removed.
+		///group number will always be in order (some may be missing) so a larger group number means a larger index
+		if (GroupNumber1 > GroupNumber2) {
+			int temp = GroupNumber1;
+			GroupNumber1 = GroupNumber2;
+			GroupNumber2 = temp;
+		}
+
+		int GroupIndex1 = SearchGroupIndexInGroups(GroupNumber1);
+		int GroupIndex2 = SearchGroupIndexInGroups(GroupNumber2);
+
+		Groups.at(GroupIndex1).PointsInGroup.insert(
+			Groups.at(GroupIndex1).PointsInGroup.end(), ///where to start inserting
+			Groups.at(GroupIndex2).PointsInGroup.begin(), ///where to start inserting from
+			Groups.at(GroupIndex2).PointsInGroup.end()); ///where to finish inserting from
+
+		Groups.erase(Groups.begin() + GroupIndex2);
+		UpdatePlayFieldPointsGroups(Groups.at(GroupIndex1)); ///if groupindex1 is after groupindex2. Error groupindex1 moved forward
+		PrintGroup(Groups.at(GroupIndex1));
+
+	}
 }
 
 
@@ -110,6 +126,7 @@ void cGameBoard::UpdatePlayFieldPointsGroups(cGroup Group)
 int cGameBoard::SearchGroupIndexInGroups(int GroupNumber)
 {
 	for (int i = 0; i < Groups.size(); ++i) {
+		int temp = Groups.at(i).GroupNumber;
 		if (Groups.at(i).GroupNumber == GroupNumber) {
 			return i;
 		}

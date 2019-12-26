@@ -30,8 +30,8 @@ int main()
 	while (1) {
 		Gameplay.MakeMove(Player1,AskTurnPosition(Player1),game);
 		PrintGame(*game);
-		Gameplay.MakeMove(Player2, AskTurnPosition(Player2), game);
-		PrintGame(*game);
+		//Gameplay.MakeMove(Player2, AskTurnPosition(Player2), game);
+		//PrintGame(*game);
 	}
 	
 

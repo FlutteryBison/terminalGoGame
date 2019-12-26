@@ -28,7 +28,7 @@ cGameBoard::~cGameBoard()
 
 ColourStatus cGameBoard::GetPositionStatus(cCoordinates Coordinates) const 
 {
-	return (Playfield[Coordinates.x][Coordinates.y]).Status;
+	return Playfield.at(Coordinates.y).at(Coordinates.x).Status;
 }
 
 std::vector<std::vector<cPoint>> cGameBoard::GetPlayfield() const 
@@ -36,10 +36,19 @@ std::vector<std::vector<cPoint>> cGameBoard::GetPlayfield() const
 	return Playfield;
 }
 
+cPoint cGameBoard::GetPoint(cCoordinates PointCoordinates) const
+{
+	return Playfield.at(PointCoordinates.y).at(PointCoordinates.x);
+}
+cPoint cGameBoard::GetPoint(cCoordinates RelativePoint, int X_Transform, int Y_Transform) const
+{
+	return (Playfield.at(RelativePoint.y + Y_Transform)).at(RelativePoint.x + X_Transform);
+}
+
 
 void cGameBoard::PlacePiece(ColourStatus PlayerColour, cCoordinates Coordinates)
 {
-	Playfield[Coordinates.x][Coordinates.y].Status = PlayerColour;
+	Playfield.at(Coordinates.y).at(Coordinates.x).Status = PlayerColour;
 }
 
 void cGameBoard::AddToNewGroup(cCoordinates PlayedPoint)
@@ -62,13 +71,35 @@ void cGameBoard::AddToNewGroup(cCoordinates PlayedPoint)
 	PrintGroup(Groups.back()); //FOR DEBUG ONLY
 }
 
-void cGameBoard::AddToExistingGroup(cCoordinates PlayedPoint, cGroup &GroupToAddTo)
+void cGameBoard::AddToExistingGroup(cCoordinates PlayedPoint, cCoordinates AdjacentPiece)
 {
-	GroupToAddTo.PointsInGroup.push_back(PlayedPoint);
+	int AdjecentPieceGroupNumber = (Playfield.at(AdjacentPiece.y)).at(AdjacentPiece.x).Group;
+	(Playfield.at(PlayedPoint.y)).at(PlayedPoint.x).Group = AdjecentPieceGroupNumber;
+
+	//search for index in groups, adds point to found group index
+	Groups.at(SearchGroupIndexInGroups(AdjecentPieceGroupNumber)).PointsInGroup.push_back(PlayedPoint);
+	PrintGroup(Groups.at(SearchGroupIndexInGroups(AdjecentPieceGroupNumber)));
+}
+
+void cGameBoard::ConnectGroups(cCoordinates Coordinates1, cCoordinates Coordinates2)
+{
+	int GroupNumber1 = GetPoint(Coordinates1).Group;
+	int GroupNumber2 = GetPoint(Coordinates2).Group;
+	int GroupIndex1 = SearchGroupIndexInGroups(GroupNumber1);
+	int GroupIndex2 = SearchGroupIndexInGroups(GroupNumber2);
+	
+	Groups.at(GroupIndex1).PointsInGroup.insert(
+		Groups.at(GroupIndex1).PointsInGroup.end(), ///where to start inserting
+		Groups.at(GroupIndex2).PointsInGroup.begin(), ///where to start inserting from
+		Groups.at(GroupIndex2).PointsInGroup.end()); ///where to finish inserting from
+
+	Groups.erase(Groups.begin() + GroupIndex2);
+	PrintGroup(Groups.at(GroupIndex1));
 }
 
 
 
+///Private Functions
 void cGameBoard::UpdatePlayFieldPointsGroups(cGroup Group)
 {
 	for (int i = 0; i < Group.PointsInGroup.size(); i++) {
@@ -76,7 +107,18 @@ void cGameBoard::UpdatePlayFieldPointsGroups(cGroup Group)
 	}
 }
 
+int cGameBoard::SearchGroupIndexInGroups(int GroupNumber)
+{
+	for (int i = 0; i < Groups.size(); ++i) {
+		if (Groups.at(i).GroupNumber == GroupNumber) {
+			return i;
+		}
+	}
+}
 
+
+
+///DEBUG FUNCTION ONLY
 void cGameBoard::PrintGroup(cGroup Group)
 {
 	std::cout << "points in group " << Group.GroupNumber << ":\n";

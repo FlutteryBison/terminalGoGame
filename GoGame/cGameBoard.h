@@ -12,7 +12,7 @@ struct cPoint{
 	int Group = -1;
 };
 
-///roup number used to be group.size. if errors check this has been changed everywhere
+///group number used to be group.size. if errors check this has been changed everywhere
 struct cGroup {
 	int GroupNumber;
 	std::vector<cCoordinates> PointsInGroup;
@@ -30,23 +30,27 @@ public:
 	ColourStatus GetPositionStatus(cCoordinates) const;
 	std::vector<std::vector<cPoint>> GetPlayfield() const;
 
+	cPoint GetPoint(cCoordinates) const;
+	cPoint GetPoint(cCoordinates RelativePoint, int X_Transform, int Y_Transform) const; ///TODO find better name for transform
+
 	void PlacePiece(ColourStatus, cCoordinates);
 	void AddToNewGroup(cCoordinates);
-	void AddToExistingGroup(cCoordinates, cGroup &GroupToAddTo);
+	void AddToExistingGroup(cCoordinates PlayedPoint , cCoordinates AdjecantPiece);
+	void ConnectGroups(cCoordinates,cCoordinates); ///TODO improve parameters
 
 
 	//DEBUG FUNCTIONS
 	void PrintGroup(cGroup);
 
 private:
-	//map for each row. each row contains 19 places
-	//std::map <int, ColourStatus> Playfield[19];
-	std::vector<std::vector<cPoint>> Playfield; //TODO Change from vector of vectors to vector of class group.group contains coordinates vector and group number
+	//vector of y with vector of inside. for cPoint at (x,y) playfield.at(y).at(x)
+	std::vector<std::vector<cPoint>> Playfield;
 	std::vector<cGroup> Groups;
 
 
 	//private functions
 	void UpdatePlayFieldPointsGroups(cGroup);
+	int SearchGroupIndexInGroups(int GroupNumber);
 
 };
 

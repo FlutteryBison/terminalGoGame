@@ -29,23 +29,49 @@ void cGameplay::MakeMove(cPlayer Player, cCoordinates MoveCoordinates, cGameBoar
 	{
 
 	}
-		//check adjacent pieces
+		//check adjacent pieces and add to group
 	bool bIsInGroup = false;
-	if (GameBoard->GetPlayfield().at(MoveCoordinates.x + 1).at(MoveCoordinates.y).Status == Player.PlayerColour) {
-		std::cout << "Friendly piece at (" << MoveCoordinates.x + 1 << "," << MoveCoordinates.y << ")\n";
+
+	///TODO refactor
+	bool bTempif = (GameBoard->GetPoint(MoveCoordinates, 1, 0).Status == Player.PlayerColour);
+	int tempplayercolour = (GameBoard->GetPoint(MoveCoordinates, 1, 0).Status);
+	if (GameBoard->GetPoint(MoveCoordinates, 1, 0).Status == Player.PlayerColour) {
+		std::cout << "1Friendly piece at (" << MoveCoordinates.x + 1 << "," << MoveCoordinates.y << ")\n";
+		GameBoard->AddToExistingGroup(MoveCoordinates, cCoordinates{ MoveCoordinates.x + 1 ,MoveCoordinates.y });
 		bIsInGroup = true;
 	}
-	if (GameBoard->GetPlayfield().at(MoveCoordinates.x).at(MoveCoordinates.y + 1).Status == Player.PlayerColour) {
-		std::cout << "Friendly piece at (" << MoveCoordinates.x << "," << MoveCoordinates.y+1 << ")\n";
-		bIsInGroup = true;
+	if (GameBoard->GetPoint(MoveCoordinates, 0, 1).Status == Player.PlayerColour) {
+		std::cout << "2Friendly piece at (" << MoveCoordinates.x << "," << MoveCoordinates.y + 1 << ")\n";
+		if (bIsInGroup) {
+			GameBoard->ConnectGroups(MoveCoordinates, cCoordinates{ MoveCoordinates.x,MoveCoordinates.y + 1 });
+		}
+
+		else {
+			GameBoard->AddToExistingGroup(MoveCoordinates, cCoordinates{ MoveCoordinates.x ,MoveCoordinates.y + 1 });
+			bIsInGroup = true;
+		}
 	}
-	if (GameBoard->GetPlayfield().at(MoveCoordinates.x - 1).at(MoveCoordinates.y).Status == Player.PlayerColour) {
-		std::cout << "Friendly piece at (" << MoveCoordinates.x - 1 << "," << MoveCoordinates.y << ")\n";
-		bIsInGroup = true;
+	if (GameBoard->GetPoint(MoveCoordinates, -1, 0).Status == Player.PlayerColour) {
+		std::cout << "3Friendly piece at (" << MoveCoordinates.x - 1 << "," << MoveCoordinates.y << ")\n";
+		if (bIsInGroup) {
+
+		}
+
+		else {
+			GameBoard->AddToExistingGroup(MoveCoordinates, cCoordinates{ MoveCoordinates.x - 1 ,MoveCoordinates.y });
+			bIsInGroup = true;
+		}
 	}
-	if (GameBoard->GetPlayfield().at(MoveCoordinates.x).at(MoveCoordinates.y - 1).Status == Player.PlayerColour) {
-		std::cout << "Friendly piece at (" << MoveCoordinates.x << "," << MoveCoordinates.y-1 << ")\n";
-		bIsInGroup = true;
+	if (GameBoard->GetPoint(MoveCoordinates, 0, -1).Status == Player.PlayerColour) {
+		std::cout << "4Friendly piece at (" << MoveCoordinates.x << "," << MoveCoordinates.y - 1 << ")\n";
+		if (bIsInGroup) {
+
+		}
+
+		else {
+			GameBoard->AddToExistingGroup(MoveCoordinates, cCoordinates{ MoveCoordinates.x ,MoveCoordinates.y - 1 });
+			bIsInGroup = true;
+		}
 	}
 
 	//if not in group make new group

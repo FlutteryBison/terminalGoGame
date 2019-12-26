@@ -34,10 +34,13 @@ public:
 	cPoint GetPoint(cCoordinates) const;
 	cPoint GetPoint(cCoordinates RelativePoint, int X_Transform, int Y_Transform) const; ///TODO find better name for transform
 
-	void PlacePiece(ColourStatus, cCoordinates);
+	void PlaceStone(ColourStatus, cCoordinates);
+	void RemoveStones(cGroup CapturedGroup);//removes all stones in the group from the board
 	void AddToNewGroup(cCoordinates);
 	void AddToExistingGroup(cCoordinates PlayedPoint , cCoordinates AdjecantPiece);
 	void ConnectGroups(cCoordinates,cCoordinates); ///TODO improve parameters
+	void EraseGroup(int GroupIndex);
+	void EraseGroup(cGroup Group);
 
 
 	//DEBUG FUNCTIONS

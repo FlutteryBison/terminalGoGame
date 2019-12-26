@@ -4,5 +4,5 @@
 
 struct cPlayer{
 	ColourStatus PlayerColour;
-	int score;
+	int score = 0;
 };

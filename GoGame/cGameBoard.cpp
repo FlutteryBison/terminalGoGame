@@ -51,9 +51,23 @@ cPoint cGameBoard::GetPoint(cCoordinates RelativePoint, int X_Transform, int Y_T
 }
 
 
-void cGameBoard::PlacePiece(ColourStatus PlayerColour, cCoordinates Coordinates)
+void cGameBoard::PlaceStone(ColourStatus PlayerColour, cCoordinates Coordinates)
 {
+
 	Playfield.at(Coordinates.y).at(Coordinates.x).Status = PlayerColour;
+}
+
+void cGameBoard::RemoveStones(cGroup CapturedGroup)
+{
+	for (int i = 0; i < CapturedGroup.PointsInGroup.size(); i++) {
+		Playfield
+			.at(CapturedGroup.PointsInGroup.at(i).y)
+			.at(CapturedGroup.PointsInGroup.at(i).x).Group = -1;
+
+		Playfield
+			.at(CapturedGroup.PointsInGroup.at(i).y)
+			.at(CapturedGroup.PointsInGroup.at(i).x).Status = Blank;
+	}
 }
 
 void cGameBoard::AddToNewGroup(cCoordinates PlayedPoint)
@@ -116,6 +130,16 @@ void cGameBoard::ConnectGroups(cCoordinates Coordinates1, cCoordinates Coordinat
 		PrintGroup(Groups.at(GroupIndex1));
 
 	}
+}
+
+void cGameBoard::EraseGroup(int GroupIndex)
+{
+	Groups.erase(Groups.begin() + GroupIndex);
+}
+
+void cGameBoard::EraseGroup(cGroup Group)
+{
+	EraseGroup(SearchGroupIndexInGroups(Group.GroupNumber));
 }
 
 

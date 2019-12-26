@@ -16,7 +16,7 @@ struct cPoint{
 struct cGroup {
 	int GroupNumber;
 	std::vector<cCoordinates> PointsInGroup;
-	int Liberties;
+	int Liberties;//not implimented
 };
 
 
@@ -29,6 +29,7 @@ public:
 
 	ColourStatus GetPositionStatus(cCoordinates) const;
 	std::vector<std::vector<cPoint>> GetPlayfield() const;
+	cGroup GetGroup(int GroupNumber) const;
 
 	cPoint GetPoint(cCoordinates) const;
 	cPoint GetPoint(cCoordinates RelativePoint, int X_Transform, int Y_Transform) const; ///TODO find better name for transform
@@ -50,7 +51,7 @@ private:
 
 	//private functions
 	void UpdatePlayFieldPointsGroups(cGroup);
-	int SearchGroupIndexInGroups(int GroupNumber);
+	int SearchGroupIndexInGroups(int GroupNumber) const;
 
 };
 

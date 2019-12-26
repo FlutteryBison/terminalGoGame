@@ -22,16 +22,20 @@ int main()
 {
 	cGameBoard* game = new cGameBoard;
 	cGameplay Gameplay;
-	PrintGame(*game);
+	
 	cPlayer Player1 = { White,0 };
 	cPlayer Player2 = { Black,0 };
 
-
+	Gameplay.MakeMove(Player1, cCoordinates{ 10,10 }, game);
+	Gameplay.MakeMove(Player2, cCoordinates{ 11,10 }, game);
+	Gameplay.MakeMove(Player2, cCoordinates{ 10,9 }, game);
+	Gameplay.MakeMove(Player2, cCoordinates{ 10,11 }, game);
+	PrintGame(*game);
 	while (1) {
 		Gameplay.MakeMove(Player1,AskTurnPosition(Player1),game);
 		PrintGame(*game);
-		//Gameplay.MakeMove(Player2, AskTurnPosition(Player2), game);
-		//PrintGame(*game);
+		Gameplay.MakeMove(Player2, AskTurnPosition(Player2), game);
+		PrintGame(*game);
 	}
 	
 

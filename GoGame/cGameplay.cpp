@@ -33,10 +33,24 @@ void cGameplay::MakeMove(cPlayer Player, cCoordinates MoveCoordinates, cGameBoar
 	bool bIsInGroup = false;
 
 	///TODO refactor
-	if (GameBoard->GetPoint(MoveCoordinates, 1, 0).Status == Player.PlayerColour) {
-		std::cout << "1Friendly piece at (" << MoveCoordinates.x + 1 << "," << MoveCoordinates.y << ")\n";
-		GameBoard->AddToExistingGroup(MoveCoordinates, cCoordinates{ MoveCoordinates.x + 1 ,MoveCoordinates.y });
-		bIsInGroup = true;
+	cPoint AdjacentPoint = GameBoard->GetPoint(MoveCoordinates, 1, 0);
+	if (AdjacentPoint.Status!= Blank) {
+
+		if(AdjacentPoint.Status == Player.PlayerColour){
+			std::cout << "1Friendly piece at (" << MoveCoordinates.x + 1 << "," << MoveCoordinates.y << ")\n";
+			GameBoard->AddToExistingGroup(MoveCoordinates, cCoordinates{ MoveCoordinates.x + 1 ,MoveCoordinates.y });
+			bIsInGroup = true;
+		}
+
+		else { ///if adjecent enemy piece
+
+			if (bIsCaptured(GameBoard, AdjacentPoint.Group)) {
+				//update score
+				//remove pieces
+				
+			}
+		}
+
 	}
 
 	if (GameBoard->GetPoint(MoveCoordinates, 0, 1).Status == Player.PlayerColour) {
@@ -87,4 +101,42 @@ void cGameplay::MakeMove(cPlayer Player, cCoordinates MoveCoordinates, cGameBoar
 	//check for capture
 
 	//remove captured pieces and update player score
+}
+
+
+///TODO impliment edge checking
+bool cGameplay::bIsCaptured(cGameBoard* GameBoard, cGroup Group )
+{
+	std::cout << "bIsCaptured Coordinates in Group :\n";
+	GameBoard->PrintGroup(Group);
+	for (int i = 0; i < Group.PointsInGroup.size(); i++) {
+		cCoordinates CurrentPointCoordinates = Group.PointsInGroup.at(i);
+
+
+		if (GameBoard->GetPoint(CurrentPointCoordinates, 1, 0).Status == Blank) {
+			return false;
+		}
+
+
+		if (GameBoard->GetPoint(CurrentPointCoordinates, 0, 1).Status == Blank) {
+			return false;
+		}
+
+		if (GameBoard->GetPoint(CurrentPointCoordinates, -1, 0).Status == Blank) {
+			return false;
+		}
+
+
+		if (GameBoard->GetPoint(CurrentPointCoordinates, 0, -1).Status == Blank) {
+			return false;
+		}
+
+	}
+
+	return true;
+}
+
+bool cGameplay::bIsCaptured(cGameBoard *GameBoard, int GroupNumber)
+{
+	return bIsCaptured(GameBoard, GameBoard->GetGroup(GroupNumber));
 }

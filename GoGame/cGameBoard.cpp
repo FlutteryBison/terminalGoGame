@@ -36,6 +36,11 @@ std::vector<std::vector<cPoint>> cGameBoard::GetPlayfield() const
 	return Playfield;
 }
 
+cGroup cGameBoard::GetGroup(int GroupNumber) const
+{
+	return Groups.at(SearchGroupIndexInGroups(GroupNumber));
+}
+
 cPoint cGameBoard::GetPoint(cCoordinates PointCoordinates) const
 {
 	return Playfield.at(PointCoordinates.y).at(PointCoordinates.x);
@@ -123,7 +128,7 @@ void cGameBoard::UpdatePlayFieldPointsGroups(cGroup Group)
 	}
 }
 
-int cGameBoard::SearchGroupIndexInGroups(int GroupNumber)
+int cGameBoard::SearchGroupIndexInGroups(int GroupNumber) const
 {
 	for (int i = 0; i < Groups.size(); ++i) {
 		int temp = Groups.at(i).GroupNumber;

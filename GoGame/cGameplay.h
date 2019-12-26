@@ -13,5 +13,9 @@ public:
 	//friend class cGameBoard;
 
 	void MakeMove(cPlayer, cCoordinates, cGameBoard*);
-};
 
+private:
+	bool bIsCaptured(cGameBoard*, cGroup);
+	bool bIsCaptured(cGameBoard*, int);
+
+};

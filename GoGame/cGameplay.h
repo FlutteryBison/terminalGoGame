@@ -17,5 +17,5 @@ public:
 private:
 	bool bIsCaptured(cGameBoard*, cGroup);
 	bool bIsCaptured(cGameBoard*, int);
-
+	bool bIsOnBoard(cCoordinates);
 };

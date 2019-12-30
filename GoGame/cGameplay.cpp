@@ -183,3 +183,14 @@ bool cGameplay::bIsCaptured(cGameBoard *GameBoard, int GroupNumber)
 {
 	return bIsCaptured(GameBoard, GameBoard->GetGroup(GroupNumber));
 }
+
+bool cGameplay::bIsOnBoard(cCoordinates Coordinates)
+{
+	if (Coordinates.x < 19 && Coordinates.x >= 0 && Coordinates.y < 19 && Coordinates.y >= 0) {
+		return true;
+	}
+
+	else {
+		return false;
+	}
+}

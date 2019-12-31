@@ -13,9 +13,12 @@ public:
 	//friend class cGameBoard;
 
 	void MakeMove(cPlayer, cCoordinates, cGameBoard*);
+	bool bIsValidMove(cCoordinates, cPlayer); ///TODO impliment bIsValidMove
 
 private:
 	bool bIsCaptured(cGameBoard*, cGroup);
 	bool bIsCaptured(cGameBoard*, int);
 	bool bIsOnBoard(cCoordinates);
+
+
 };

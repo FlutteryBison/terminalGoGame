@@ -10,13 +10,14 @@
 struct cPoint{
 	ColourStatus Status;
 	int Group = -1;
+	cCoordinates PointCoordinate;
 };
 
-///group number used to be group.size. if errors check this has been changed everywhere
+///group number used to be groups.size. if errors check this has been changed everywhere
 struct cGroup {
 	int GroupNumber;
 	std::vector<cCoordinates> PointsInGroup;
-	int Liberties;//not implimented
+	//int Liberties;//not implimented
 };
 
 

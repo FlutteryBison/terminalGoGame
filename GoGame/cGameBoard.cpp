@@ -7,15 +7,20 @@ cGameBoard::cGameBoard()
 	//set all positions blank
 	std::vector<cPoint>* tempvector = new std::vector<cPoint>;
 	cPoint* temppoint = new cPoint;
+	
+	for (int c = 0; c < 19; c++) {
+		for (int i = 0; i < 19; i++) {
 
-	for (int i = 0; i < 19; i++) {
+			temppoint->Status = Blank;
+			temppoint->PointCoordinate.x = i;
+			temppoint->PointCoordinate.y = c;
 
-		
-		temppoint->Status = Blank;
-		tempvector->push_back(*temppoint);
-	}
-	for (int i = 0; i < 19; i++) {
+			tempvector->push_back(*temppoint);
+
+
+		}
 		Playfield.push_back(*tempvector);
+		tempvector->clear();
 	}
 	delete temppoint;
 	delete tempvector;

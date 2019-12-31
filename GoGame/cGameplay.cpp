@@ -164,23 +164,29 @@ bool cGameplay::bIsCaptured(cGameBoard* GameBoard, cGroup Group )
 	for (int i = 0; i < Group.PointsInGroup.size(); i++) {
 		cCoordinates CurrentPointCoordinates = Group.PointsInGroup.at(i);
 
-		
-		if (GameBoard->GetPoint(CurrentPointCoordinates, 1, 0).Status == Blank) {
-			return false;
+
+		if (bIsOnBoard(cCoordinates{ CurrentPointCoordinates.x + 1, CurrentPointCoordinates.y })) {
+			if (GameBoard->GetPoint(CurrentPointCoordinates, 1, 0).Status == Blank) {
+				return false;
+			}
 		}
 
-
-		if (GameBoard->GetPoint(CurrentPointCoordinates, 0, 1).Status == Blank) {
-			return false;
+		if (bIsOnBoard(cCoordinates{ CurrentPointCoordinates.x, CurrentPointCoordinates.y + 1 })) {
+			if (GameBoard->GetPoint(CurrentPointCoordinates, 0, 1).Status == Blank) {
+				return false;
+			}
 		}
 
-		if (GameBoard->GetPoint(CurrentPointCoordinates, -1, 0).Status == Blank) {
-			return false;
+		if (bIsOnBoard(cCoordinates{ CurrentPointCoordinates.x - 1, CurrentPointCoordinates.y })) {
+			if (GameBoard->GetPoint(CurrentPointCoordinates, -1, 0).Status == Blank) {
+				return false;
+			}
 		}
 
-
-		if (GameBoard->GetPoint(CurrentPointCoordinates, 0, -1).Status == Blank) {
-			return false;
+		if (bIsOnBoard(cCoordinates{ CurrentPointCoordinates.x, CurrentPointCoordinates.y - 1 })) {
+			if (GameBoard->GetPoint(CurrentPointCoordinates, 0, -1).Status == Blank) {
+				return false;
+			}
 		}
 
 	}

@@ -149,9 +149,19 @@ void cGameplay::MakeMove(cPlayer Player, cCoordinates MoveCoordinates, cGameBoar
 
 }
 
-bool cGameplay::bIsValidMove(cCoordinates, cPlayer)
+
+///TODO find a way to check if adding to the group makes the group captured
+bool cGameplay::bIsValidMove(cCoordinates MoveCoordinates, cPlayer Player, std::vector<std::vector<cPoint>> Playfield)
 {
-	return false;
+	if (!bIsOnBoard(MoveCoordinates)) {
+		return false;
+	}
+
+	if (Playfield.at(MoveCoordinates.y).at(MoveCoordinates.x).Status != Blank) { ///is point already used
+		return false;
+	}
+
+	return true;
 }
 
 

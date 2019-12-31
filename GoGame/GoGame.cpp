@@ -13,7 +13,6 @@ using namespace std;
 
 void PrintGame(cGameBoard);
 char ConvertPostitionStatusToChar(ColourStatus);
-void TakeTurn(cPlayer); //not currently used
 cCoordinates AskTurnPosition(cPlayer);
 
 
@@ -32,8 +31,33 @@ int main()
 	Gameplay.MakeMove(Player2, cCoordinates{ 10,11 }, game);
 	PrintGame(*game);
 	while (1) {
-		Gameplay.MakeMove(Player1,AskTurnPosition(Player1),game);
+		
+		
+		while(1) {
+			cCoordinates Move;
+			Move = AskTurnPosition(Player1);
+			if (Gameplay.bIsValidMove(Move, Player1, game->GetPlayfield())) {
+				break;
+			}
+			else {
+				cout << "Move Invalid\n\n";
+			}
+		}
+
+		Gameplay.MakeMove(Player1, AskTurnPosition(Player1), game);
 		PrintGame(*game);
+
+		while (1) {
+			cCoordinates Move;
+			Move = AskTurnPosition(Player2);
+			if (Gameplay.bIsValidMove(Move, Player2, game->GetPlayfield())) {
+				break;
+			}
+			else {
+				cout << "Move Invalid\n\n";
+			}
+		}
+
 		Gameplay.MakeMove(Player2, AskTurnPosition(Player2), game);
 		PrintGame(*game);
 	}
@@ -98,11 +122,6 @@ char ConvertPostitionStatusToChar(ColourStatus ps) {
 		return NULL;
 	}
 	}
-}
-
-void TakeTurn(cPlayer) 
-{
-	
 }
 
 cCoordinates AskTurnPosition(cPlayer Player)

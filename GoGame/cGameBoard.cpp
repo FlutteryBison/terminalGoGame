@@ -5,6 +5,7 @@
 cGameBoard::cGameBoard()
 {
 	//set all positions blank
+	//set all point coordinates. Can still use the position in the vectors
 	std::vector<cPoint>* tempvector = new std::vector<cPoint>;
 	cPoint* temppoint = new cPoint;
 	

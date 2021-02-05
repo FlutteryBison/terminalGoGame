@@ -19,22 +19,20 @@ cCoordinates AskTurnPosition(cPlayer);
 
 int main()
 {
+
+
 	cGameBoard* game = new cGameBoard;
 	cGameplay Gameplay;
 	
 	cPlayer Player1 = { White,0 };
 	cPlayer Player2 = { Black,0 };
 
-	Gameplay.MakeMove(Player1, cCoordinates{ 10,10 }, game);
-	Gameplay.MakeMove(Player2, cCoordinates{ 11,10 }, game);
-	Gameplay.MakeMove(Player2, cCoordinates{ 10,9 }, game);
-	Gameplay.MakeMove(Player2, cCoordinates{ 10,11 }, game);
 	PrintGame(*game);
 	while (1) {
 		
-		
+		cCoordinates Move;
 		while(1) {
-			cCoordinates Move;
+			
 			Move = AskTurnPosition(Player1);
 			if (Gameplay.bIsValidMove(Move, Player1, game->GetPlayfield())) {
 				break;
@@ -44,11 +42,10 @@ int main()
 			}
 		}
 
-		Gameplay.MakeMove(Player1, AskTurnPosition(Player1), game);
+		Gameplay.MakeMove(Player1, Move, game);
 		PrintGame(*game);
 
 		while (1) {
-			cCoordinates Move;
 			Move = AskTurnPosition(Player2);
 			if (Gameplay.bIsValidMove(Move, Player2, game->GetPlayfield())) {
 				break;
@@ -58,7 +55,7 @@ int main()
 			}
 		}
 
-		Gameplay.MakeMove(Player2, AskTurnPosition(Player2), game);
+		Gameplay.MakeMove(Player2, Move, game);
 		PrintGame(*game);
 	}
 	

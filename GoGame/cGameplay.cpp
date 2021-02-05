@@ -23,8 +23,6 @@ void cGameplay::MakeMove(cPlayer Player, cCoordinates MoveCoordinates, cGameBoar
 
 	
 	
-
-	
 	//check adjacent pieces and add to group
 	bool bIsInGroup = false;
 	cPoint AdjacentPoint;
